@@ -26,7 +26,7 @@ public class PingPongAnim : BallComponent
 
         Time.timeScale = deltaForTime / _timeOfChange;
 
-        ChangeScaleOfObject(_targetScale, transform, Speed);
+        ChangeScaleOfObject(_targetScale, transform, speed);
 
         if(transform.localScale == _targetScale)
         {

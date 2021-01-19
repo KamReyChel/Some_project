@@ -36,19 +36,28 @@ public enum BallInstruction
 public class BallComponent : MonoBehaviour
 {
 
-    public float Speed = 1.0f;
+    public float speed = 1.0f;
+    //private float realSpeed;
+
     //public BallInstruction Instruction = BallInstruction.Idle;
     public List<BallInstruction> Instructions = new List<BallInstruction>();
 
-    public float RotationSpeed = 10.0f;
-    public float SizeChangeSpeed = 1.0f;
-    private Vector3 _vecRotation = Vector3.zero;
-    public float InstructionLength = 1.0f;
+    public float rotationSpeed = 10.0f;
+    public float sizeChangeSpeed = 1.0f;
+    //private Vector3 _vecRotation = Vector3.zero;
+    public float instructionLength = 1.0f;
+
+    //private Vector3 leftLook = new Vector3(-1, 1, 1);
+    //private Vector3 rightLook = Vector3.one;
+
+    //private bool isBig = false;
 
     //private Vector3 _desirableScaleVector = new Vector3();
 
     //GameState State = GameState.Start;
     //EnemyStatus EnemyState = EnemyStatus.Walking;
+
+    Rigidbody2D m_rigidbody;
 
     public void ChangeScaleOfObject(Vector3 targetScaleVector, Transform gameObjectTransform, float speed)
     {
@@ -89,70 +98,52 @@ public class BallComponent : MonoBehaviour
         Debug.Log("IS JUMPING");
 
         */
-
+        m_rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Czas od ostatniej klatki: " + Time.deltaTime);
+        //Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Debug.Log("Mouse position: " + Input.mousePosition);
+        //Debug.Log("Mouse in world position: " + worldPos);
 
 
-        //transform.rotation = Quaternion.Euler(_vecRotation);
+        if (Input.GetMouseButtonDown(0))
+            Debug.Log("Left mouse button has been pressed");
 
-        //transform.position += Vector3.up * Time.deltaTime;
+        m_rigidbody.simulated = !GameplayManager.Instance.pause;
+  
+    }
 
-        //ChangeScaleOfObject(_desirableScaleVector, transform, Speed);
+    private void OnMouseEnter()
+    {
+        Debug.Log("Mouse entering over object");
+    }
 
-        /*
-        switch (Instruction)
-        {
-            case BallInstruction.MoveUp:
-                transform.position += Vector3.up * Speed * Time.deltaTime;
-                break;
+    private void OnMouseExit()
+    {
+        Debug.Log("Mouse leaving object");
+        
+    }
 
-            case BallInstruction.MoveDown:
-                transform.position += Vector3.down * Speed * Time.deltaTime;
-                break;
-
-            case BallInstruction.MoveLeft:
-                transform.position += Vector3.left * Speed * Time.deltaTime;
-                break;
-
-            case BallInstruction.MoveRight:
-                transform.position += Vector3.right * Speed * Time.deltaTime;
-                break;
-
-            case BallInstruction.RotateLeft:
-                _vecRotation += Vector3.forward * RotationSpeed;
-                transform.rotation = Quaternion.Euler(_vecRotation);
-                break;
-
-            case BallInstruction.RotateRight:
-                _vecRotation += Vector3.back * RotationSpeed;
-                transform.rotation = Quaternion.Euler(_vecRotation);
-                break;
-
-            case BallInstruction.ScaleUp:
-                transform.localScale += Vector3.one * SizeChangeSpeed * Time.deltaTime;
-                break;
-
-            case BallInstruction.ScaleDown:
-                transform.localScale -= Vector3.one * SizeChangeSpeed * Time.deltaTime;
-                break;
-
-            default:
-                Debug.Log("Idle");
-                break;
-        }
-
-        */
-
-        }
-
+    private void OnMouseUp()
+    {
+        m_rigidbody.simulated = true;
 
     }
 
+    private void OnMouseDrag()
+    {
+        /*
+        if (GameplayManager.Instance.pause)
+            return;
+        */
+        m_rigidbody.simulated = false;
 
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector3(worldPos.x, worldPos.y);
+    }
+}
     
 
