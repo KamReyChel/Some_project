@@ -46,6 +46,7 @@ public class BallComponent : MonoBehaviour
     public float sizeChangeSpeed = 1.0f;
     //private Vector3 _vecRotation = Vector3.zero;
     public float instructionLength = 1.0f;
+    private float physicsSpeed;
 
     //private Vector3 leftLook = new Vector3(-1, 1, 1);
     //private Vector3 rightLook = Vector3.one;
@@ -56,6 +57,7 @@ public class BallComponent : MonoBehaviour
 
     //GameState State = GameState.Start;
     //EnemyStatus EnemyState = EnemyStatus.Walking;
+
 
     Rigidbody2D m_rigidbody;
 
@@ -101,6 +103,11 @@ public class BallComponent : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody2D>();
     }
 
+    private void FixedUpdate()
+    {
+        physicsSpeed = m_rigidbody.velocity.magnitude;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -112,7 +119,7 @@ public class BallComponent : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             Debug.Log("Left mouse button has been pressed");
 
-        m_rigidbody.simulated = !GameplayManager.Instance.pause;
+        //m_rigidbody.simulated = !GameplayManager.Instance.pause;
   
     }
 
@@ -126,13 +133,13 @@ public class BallComponent : MonoBehaviour
         Debug.Log("Mouse leaving object");
         
     }
-
+    
     private void OnMouseUp()
     {
         m_rigidbody.simulated = true;
 
     }
-
+    
     private void OnMouseDrag()
     {
         /*
@@ -143,6 +150,16 @@ public class BallComponent : MonoBehaviour
 
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector3(worldPos.x, worldPos.y);
+    }
+
+    public bool IsSimulated()
+    {
+        return m_rigidbody.simulated;
+    }
+
+    public float ComponentPhisicsRealSpeed()
+    {
+        return physicsSpeed * Time.fixedDeltaTime;
     }
 }
     
