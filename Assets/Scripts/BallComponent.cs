@@ -66,7 +66,7 @@ public class BallComponent : MonoBehaviour
     private GameObject leftArmSlingshot;
 
     [SerializeField]
-    private GameObject mainCamera;
+    private CameraController mainCamera;
 
     private Rigidbody2D m_rigidbody;
 
@@ -200,7 +200,7 @@ public class BallComponent : MonoBehaviour
 
         SetLineRendererPoints();
 
-        mainCamera.GetComponent<CameraController>().SetOriginalPosition();
+        mainCamera.SetOriginalPosition();
         
     }
 
