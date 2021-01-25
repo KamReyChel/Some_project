@@ -36,30 +36,39 @@ public enum BallInstruction
 public class BallComponent : MonoBehaviour
 {
 
-    public float speed = 1.0f;
-    //private float realSpeed;
-
-    //public BallInstruction Instruction = BallInstruction.Idle;
     public List<BallInstruction> Instructions = new List<BallInstruction>();
 
+    public float speed = 1.0f;
     public float rotationSpeed = 10.0f;
     public float sizeChangeSpeed = 1.0f;
-    //private Vector3 _vecRotation = Vector3.zero;
+
     public float instructionLength = 1.0f;
+    
+    public float SlingStart = 0.5f;
+    public float maxSpringDistance = 2.5f;
+
+    public bool restartStatus = false;
+
     private float physicsSpeed;
 
-    //private Vector3 leftLook = new Vector3(-1, 1, 1);
-    //private Vector3 rightLook = Vector3.one;
+    private bool m_hitTheGround = false;
+    
 
-    //private bool isBig = false;
+    private Vector3 m_startPosition;
+    private Quaternion m_startRotation;
 
-    //private Vector3 _desirableScaleVector = new Vector3();
+    private SpringJoint2D m_connectedJoint;
+    private Rigidbody2D m_connectedBody;
+    private LineRenderer m_linerenderer;
+    private TrailRenderer m_trailRenderer;
 
-    //GameState State = GameState.Start;
-    //EnemyStatus EnemyState = EnemyStatus.Walking;
+    [SerializeField]
+    private GameObject leftArmSlingshot;
 
+    [SerializeField]
+    private GameObject mainCamera;
 
-    Rigidbody2D m_rigidbody;
+    private Rigidbody2D m_rigidbody;
 
     public void ChangeScaleOfObject(Vector3 targetScaleVector, Transform gameObjectTransform, float speed)
     {
@@ -81,26 +90,14 @@ public class BallComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log("Hello World!");
-        //_desirableScaleVector.Set(3.0f, 3.0f, 3.0f);
-
-        //Debug.Log("State: " + State);
-        //int StateVal = (int)State;
-        //++StateVal;
-        //State = (GameState)((int)State + 1);
-        //++State;
-        //Debug.Log("New State: " + State);
-
-        /*
-
-        EnemyState |= EnemyStatus.Alarmed;
-        EnemyState ^= EnemyStatus.Jumping;
-
-        if ((EnemyState & EnemyStatus.Jumping) == EnemyStatus.Jumping)
-        Debug.Log("IS JUMPING");
-
-        */
         m_rigidbody = GetComponent<Rigidbody2D>();
+        m_connectedJoint = GetComponent<SpringJoint2D>();
+        m_connectedBody = m_connectedJoint.connectedBody;
+        m_linerenderer = GetComponent<LineRenderer>();
+        m_trailRenderer = GetComponent<TrailRenderer>();
+
+        m_startPosition = transform.position;
+        m_startRotation = transform.rotation;
     }
 
     private void FixedUpdate()
@@ -111,18 +108,22 @@ public class BallComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //Debug.Log("Mouse position: " + Input.mousePosition);
-        //Debug.Log("Mouse in world position: " + worldPos);
+        if (transform.position.x > m_connectedBody.transform.position.x + SlingStart)
+        {
+            m_connectedJoint.enabled = false;
+            m_linerenderer.enabled = false;
+            m_trailRenderer.enabled = !m_hitTheGround;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Restart();
+        }
 
 
-        if (Input.GetMouseButtonDown(0))
-            Debug.Log("Left mouse button has been pressed");
-
-        //m_rigidbody.simulated = !GameplayManager.Instance.pause;
-  
     }
 
+    /*
     private void OnMouseEnter()
     {
         Debug.Log("Mouse entering over object");
@@ -133,7 +134,7 @@ public class BallComponent : MonoBehaviour
         Debug.Log("Mouse leaving object");
         
     }
-    
+    */
     private void OnMouseUp()
     {
         m_rigidbody.simulated = true;
@@ -142,14 +143,36 @@ public class BallComponent : MonoBehaviour
     
     private void OnMouseDrag()
     {
-        /*
-        if (GameplayManager.Instance.pause)
-            return;
-        */
         m_rigidbody.simulated = false;
+        m_hitTheGround = false;
+
 
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = new Vector3(worldPos.x, worldPos.y);
+        Vector2 newBallPos = new Vector3(worldPos.x, worldPos.y);
+
+        float CurJointDistance = Vector3.Distance(newBallPos, m_connectedBody.transform.position);
+
+        if (CurJointDistance > maxSpringDistance)
+        {
+            Vector2 direction = (newBallPos - m_connectedBody.position).normalized;
+            transform.position = m_connectedBody.position + direction * maxSpringDistance;
+        }
+        else
+        {
+            transform.position = newBallPos;
+        }
+
+        SetLineRendererPoints();
+
+        //transform.position = new Vector3(worldPos.x, worldPos.y);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            m_hitTheGround = true;
+        }
     }
 
     public bool IsSimulated()
@@ -160,6 +183,36 @@ public class BallComponent : MonoBehaviour
     public float ComponentPhisicsRealSpeed()
     {
         return physicsSpeed * Time.fixedDeltaTime;
+    }
+
+    private void Restart()
+    {
+        transform.position = m_startPosition;
+        transform.rotation = m_startRotation;
+
+        m_rigidbody.velocity = Vector3.zero;
+        m_rigidbody.angularVelocity = 0.0f;
+        m_rigidbody.simulated = true;
+
+        m_connectedJoint.enabled = true;
+        m_linerenderer.enabled = true;
+        m_trailRenderer.enabled = false;
+
+        SetLineRendererPoints();
+
+        mainCamera.GetComponent<CameraController>().SetOriginalPosition();
+        
+    }
+
+    private void SetLineRendererPoints()
+    {
+        m_linerenderer.positionCount = 3;
+        m_linerenderer.SetPositions(new Vector3[]
+        {
+            m_connectedBody.position,
+            transform.position,
+            leftArmSlingshot.transform.position
+        });
     }
 }
     

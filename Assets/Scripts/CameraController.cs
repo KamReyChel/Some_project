@@ -21,8 +21,14 @@ public class CameraController : MonoBehaviour
             return;
 
         //transform.position = followTarget.transform.position + originalPostion;
-        targetPosition = originalPostion + followTarget.transform.position;
+        targetPosition = followTarget.transform.position + originalPostion;
+
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, followTarget.ComponentPhisicsRealSpeed());
 
+    }
+
+    public void SetOriginalPosition()
+    {
+        transform.position = originalPostion;
     }
 }
