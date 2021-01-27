@@ -61,6 +61,21 @@ public class BallComponent : MonoBehaviour
     private Rigidbody2D m_connectedBody;
     private LineRenderer m_linerenderer;
     private TrailRenderer m_trailRenderer;
+    private Animator m_animator;
+    private AudioSource m_audioSource;
+    private ParticleSystem m_particles;
+
+    [SerializeField]
+    private AudioClip pullSound;
+
+    [SerializeField]
+    private AudioClip shootSound;
+
+    [SerializeField]
+    private AudioClip impactSound;
+
+    [SerializeField]
+    private AudioClip restartSound;
 
     [SerializeField]
     private GameObject leftArmSlingshot;
@@ -95,6 +110,9 @@ public class BallComponent : MonoBehaviour
         m_connectedBody = m_connectedJoint.connectedBody;
         m_linerenderer = GetComponent<LineRenderer>();
         m_trailRenderer = GetComponent<TrailRenderer>();
+        m_audioSource = GetComponent<AudioSource>();
+        m_animator = GetComponentInChildren<Animator>();
+        m_particles = GetComponentInChildren<ParticleSystem>();
 
         m_startPosition = transform.position;
         m_startRotation = transform.rotation;
@@ -135,10 +153,16 @@ public class BallComponent : MonoBehaviour
         
     }
     */
+
+    private void OnMouseDown()
+    {
+        m_audioSource.PlayOneShot(pullSound);
+    }
     private void OnMouseUp()
     {
         m_rigidbody.simulated = true;
-
+        m_audioSource.PlayOneShot(shootSound);
+        m_particles.Play();
     }
     
     private void OnMouseDrag()
@@ -172,6 +196,10 @@ public class BallComponent : MonoBehaviour
         if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             m_hitTheGround = true;
+            m_audioSource.PlayOneShot(impactSound);
+
+            m_animator.enabled = true;
+            m_animator.Play(0);
         }
     }
 
@@ -201,6 +229,7 @@ public class BallComponent : MonoBehaviour
         SetLineRendererPoints();
 
         mainCamera.SetOriginalPosition();
+        m_audioSource.PlayOneShot(restartSound);
         
     }
 
