@@ -3,40 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum GameState
+public class BallComponent : InteractiveComponent
 {
-    Start,
-    Pause,
-    Exit
-}
-
-[Flags]
-public enum EnemyStatus
-{
-    Walking = 1,
-    Shooting = 2,
-    Jumping = 4,
-    Alarmed = 8
-}
-
-public enum BallInstruction
-{
-    Idle = 0,
-    MoveUp,
-    MoveDown,
-    MoveLeft,
-    MoveRight,
-    RotateLeft,
-    RotateRight,
-    ScaleUp,
-    ScaleDown
-}
-
-
-public class BallComponent : MonoBehaviour
-{
-
-    public List<BallInstruction> Instructions = new List<BallInstruction>();
 
     public float speed = 1.0f;
     public float rotationSpeed = 10.0f;
@@ -56,9 +24,14 @@ public class BallComponent : MonoBehaviour
 
     private Vector3 m_startPosition;
     private Quaternion m_startRotation;
+    private Rigidbody2D m_rigidbody;
 
-    private SpringJoint2D m_connectedJoint;
+    protected override Vector3 startPosition { get => m_startPosition; set => m_startPosition = value; }
+    protected override Quaternion startRotation { get => m_startRotation; set => m_startRotation = value; }
+    protected override Rigidbody2D cRigidbody { get => m_rigidbody; set => m_rigidbody = value; }
+
     private Rigidbody2D m_connectedBody;
+    private SpringJoint2D m_connectedJoint;
     private LineRenderer m_linerenderer;
     private TrailRenderer m_trailRenderer;
     private Animator m_animator;
@@ -83,8 +56,6 @@ public class BallComponent : MonoBehaviour
     [SerializeField]
     private CameraController mainCamera;
 
-    private Rigidbody2D m_rigidbody;
-
     public void ChangeScaleOfObject(Vector3 targetScaleVector, Transform gameObjectTransform, float speed)
     {
 
@@ -105,7 +76,7 @@ public class BallComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_rigidbody = GetComponent<Rigidbody2D>();
+        cRigidbody = GetComponent<Rigidbody2D>();
         m_connectedJoint = GetComponent<SpringJoint2D>();
         m_connectedBody = m_connectedJoint.connectedBody;
         m_linerenderer = GetComponent<LineRenderer>();
@@ -114,13 +85,17 @@ public class BallComponent : MonoBehaviour
         m_animator = GetComponentInChildren<Animator>();
         m_particles = GetComponentInChildren<ParticleSystem>();
 
-        m_startPosition = transform.position;
-        m_startRotation = transform.rotation;
+        startPosition = transform.position;
+        startRotation = transform.rotation;
+
+        GameplayManager.OnGamePaused += DoPause;
+        GameplayManager.OnGamePlaying += DoPlay;
+        GameplayManager.GameReset += DoAddicionalReset;
     }
 
     private void FixedUpdate()
     {
-        physicsSpeed = m_rigidbody.velocity.magnitude;
+        physicsSpeed = cRigidbody.velocity.magnitude;
     }
 
     // Update is called once per frame
@@ -132,12 +107,6 @@ public class BallComponent : MonoBehaviour
             m_linerenderer.enabled = false;
             m_trailRenderer.enabled = !m_hitTheGround;
         }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Restart();
-        }
-
 
     }
 
@@ -160,16 +129,15 @@ public class BallComponent : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        m_rigidbody.simulated = true;
+        cRigidbody.simulated = true;
         m_audioSource.PlayOneShot(shootSound);
         m_particles.Play();
     }
     
     private void OnMouseDrag()
     {
-        m_rigidbody.simulated = false;
+        cRigidbody.simulated = false;
         m_hitTheGround = false;
-
 
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 newBallPos = new Vector3(worldPos.x, worldPos.y);
@@ -188,7 +156,6 @@ public class BallComponent : MonoBehaviour
 
         SetLineRendererPoints();
 
-        //transform.position = new Vector3(worldPos.x, worldPos.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -213,15 +180,8 @@ public class BallComponent : MonoBehaviour
         return physicsSpeed * Time.fixedDeltaTime;
     }
 
-    private void Restart()
+    private void DoAddicionalReset()
     {
-        transform.position = m_startPosition;
-        transform.rotation = m_startRotation;
-
-        m_rigidbody.velocity = Vector3.zero;
-        m_rigidbody.angularVelocity = 0.0f;
-        m_rigidbody.simulated = true;
-
         m_connectedJoint.enabled = true;
         m_linerenderer.enabled = true;
         m_trailRenderer.enabled = false;
@@ -230,7 +190,6 @@ public class BallComponent : MonoBehaviour
 
         mainCamera.SetOriginalPosition();
         m_audioSource.PlayOneShot(restartSound);
-        
     }
 
     private void SetLineRendererPoints()
@@ -243,6 +202,7 @@ public class BallComponent : MonoBehaviour
             leftArmSlingshot.transform.position
         });
     }
+
 }
     
 
