@@ -110,18 +110,6 @@ public class BallComponent : InteractiveComponent
 
     }
 
-    /*
-    private void OnMouseEnter()
-    {
-        Debug.Log("Mouse entering over object");
-    }
-
-    private void OnMouseExit()
-    {
-        Debug.Log("Mouse leaving object");
-        
-    }
-    */
 
     private void OnMouseDown()
     {
@@ -136,26 +124,28 @@ public class BallComponent : InteractiveComponent
     
     private void OnMouseDrag()
     {
-        cRigidbody.simulated = false;
-        m_hitTheGround = false;
-
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 newBallPos = new Vector3(worldPos.x, worldPos.y);
-
-        float CurJointDistance = Vector3.Distance(newBallPos, m_connectedBody.transform.position);
-
-        if (CurJointDistance > maxSpringDistance)
+        if (GameplayManager.Instance.GameState == EGameState.Playing)
         {
-            Vector2 direction = (newBallPos - m_connectedBody.position).normalized;
-            transform.position = m_connectedBody.position + direction * maxSpringDistance;
-        }
-        else
-        {
-            transform.position = newBallPos;
-        }
+            cRigidbody.simulated = false;
+            m_hitTheGround = false;
 
-        SetLineRendererPoints();
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 newBallPos = new Vector3(worldPos.x, worldPos.y);
 
+            float CurJointDistance = Vector3.Distance(newBallPos, m_connectedBody.transform.position);
+
+            if (CurJointDistance > maxSpringDistance)
+            {
+                Vector2 direction = (newBallPos - m_connectedBody.position).normalized;
+                transform.position = m_connectedBody.position + direction * maxSpringDistance;
+            }
+            else
+            {
+                transform.position = newBallPos;
+            }
+
+            SetLineRendererPoints();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -46,12 +46,31 @@ public class GameplayManager : Singleton<GameplayManager>
     public static event GameStateCallback OnGamePaused;
     public static event GameStateCallback OnGamePlaying;
     public static event GameStateCallback GameReset;
-    
+
+    private HUDController m_HUD;
+    private int m_points = 0;
+
+    public int Points
+    {
+        get { return m_points; }
+        set
+        {
+            m_points = value;
+            m_HUD.UpdatePoints(m_points);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         m_state = EGameState.Playing;
         GetAllRestartableObjects();
+
+        m_HUD = FindObjectOfType<HUDController>();
+        Points = 0;
+
+        OnGamePaused += DeactiveHUB;
+        OnGamePlaying += ActiveHUB;
     }
 
     // Update is called once per frame
@@ -59,31 +78,17 @@ public class GameplayManager : Singleton<GameplayManager>
     {
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            switch (GameState)
-            {
-                case EGameState.Playing:
-                    {
-                        GameState = EGameState.Paused;
-                    }
-                    break;
-
-                case EGameState.Paused:
-                    {
-                        GameState = EGameState.Playing;
-                    }
-                    break;
-            }
+            PlayPause();
         }
 
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            Application.Quit();
+            GameState = EGameState.Paused;
         }
 
         if (Input.GetKeyUp(KeyCode.R))
         {
             Restart();
-            GameReset();
         }
 
     }
@@ -105,9 +110,44 @@ public class GameplayManager : Singleton<GameplayManager>
         }
     }
 
-    private void Restart()
+    public void Restart()
     {
         foreach (var restartableObject in m_restartableObjects)
             restartableObject.DoRestart();
+
+        Points = 0;
+
+        if (GameReset != null)
+            GameReset();
+    }
+
+    public void PlayPause()
+    {
+        switch (GameState)
+        {
+            case EGameState.Playing:
+                {
+                    GameState = EGameState.Paused;
+                }
+                break;
+
+            case EGameState.Paused:
+                {
+                    GameState = EGameState.Playing;
+                }
+                break;
+        }
+    }
+
+    private void ActiveHUB()
+    {
+        m_HUD.SetPauseActivation(true);
+        m_HUD.SetResetActivation(true);
+    }
+
+    private void DeactiveHUB()
+    {
+        m_HUD.SetPauseActivation(false);
+        m_HUD.SetResetActivation(false);
     }
 }
