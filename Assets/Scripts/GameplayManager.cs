@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Threading.Tasks;
 public enum EGameState
 {
     Playing,
@@ -71,6 +71,9 @@ public class GameplayManager : Singleton<GameplayManager>
 
         OnGamePaused += DeactiveHUB;
         OnGamePlaying += ActiveHUB;
+        ////////////////////////////////////////////////////////
+
+        //StartCoroutine(FPS_Coroutine());
     }
 
     // Update is called once per frame
@@ -150,4 +153,54 @@ public class GameplayManager : Singleton<GameplayManager>
         m_HUD.SetPauseActivation(false);
         m_HUD.SetResetActivation(false);
     }
+
+    
+    IEnumerator FPS_Coroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            float fps = Time.frameCount / Time.time;
+            m_HUD.UpdateFPSCount(fps);
+        }
+
+    }
+
+    IEnumerator TestCoroutine()
+    {
+        Debug.Log("Starting coroutine method");
+        yield return new WaitForSeconds(3.0f);
+        Debug.Log("Coroutine done after 3 seconds");
+    }
+    async void FPS_async()
+    {
+        while (true)
+        {
+            await Task.Delay(1000);
+            float fps = Time.frameCount / Time.time;
+            m_HUD.UpdateFPSCount(fps);
+        }
+    }
+
+    async Task TestAsync()
+    {
+        Debug.Log("Starting async method");
+        await Task.Delay(3000);
+        Debug.Log("Async done after 3 seconds");
+    }
+
+    async void SecondTestAsync()
+    {
+        Debug.Log("Starting second async method");
+        await TestAsync();
+        Debug.Log("Second async done");
+    }
+
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
+
 }

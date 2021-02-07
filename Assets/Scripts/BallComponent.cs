@@ -20,7 +20,7 @@ public class BallComponent : InteractiveComponent
     private float physicsSpeed;
 
     private bool m_hitTheGround = false;
-    
+
 
     private Vector3 m_startPosition;
     private Quaternion m_startRotation;
@@ -91,6 +91,8 @@ public class BallComponent : InteractiveComponent
         GameplayManager.OnGamePaused += DoPause;
         GameplayManager.OnGamePlaying += DoPlay;
         GameplayManager.GameReset += DoAddicionalReset;
+
+        StartCoroutine(LoseConnection());
     }
 
     private void FixedUpdate()
@@ -101,12 +103,14 @@ public class BallComponent : InteractiveComponent
     // Update is called once per frame
     void Update()
     {
+        /*
         if (transform.position.x > m_connectedBody.transform.position.x + SlingStart)
         {
             m_connectedJoint.enabled = false;
             m_linerenderer.enabled = false;
             m_trailRenderer.enabled = !m_hitTheGround;
         }
+        */
 
     }
 
@@ -193,6 +197,31 @@ public class BallComponent : InteractiveComponent
         });
     }
 
+
+    IEnumerator LoseConnection()
+    {
+        while (true)
+        {
+            if (Time.frameCount % 2 == 0)
+            {
+                if (transform.position.x > m_connectedBody.transform.position.x + SlingStart)
+                {
+                    m_connectedJoint.enabled = false;
+                    m_linerenderer.enabled = false;
+                    m_trailRenderer.enabled = !m_hitTheGround;
+
+                    yield return new WaitForEndOfFrame();
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 }
     
 

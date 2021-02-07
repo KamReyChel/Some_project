@@ -32,6 +32,11 @@ public class HUDController : MonoBehaviour
         pointsText.text = "Points: " + points;
     }
 
+    public void UpdateFPSCount(float fps)
+    {
+        Debug.Log($"FPS: {fps}");
+    }
+
     public void SetPauseActivation (bool activation)
     {
         pauseButton.gameObject.SetActive(activation);
@@ -41,4 +46,5 @@ public class HUDController : MonoBehaviour
     {
         resetButton.gameObject.SetActive(activation);
     }
+
 }
