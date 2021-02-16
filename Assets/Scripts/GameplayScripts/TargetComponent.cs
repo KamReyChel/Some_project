@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TargetComponent : InteractiveComponent
 {
+    [SerializeField]
+    private GameSettingsDatabase gameDatabase;
 
     private Vector3 m_startPosition;
     private Quaternion m_startRotation;
@@ -27,6 +29,8 @@ public class TargetComponent : InteractiveComponent
 
         GameplayManager.OnGamePlaying += DoPlay;
         GameplayManager.OnGamePaused += DoPause;
+
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -34,9 +38,10 @@ public class TargetComponent : InteractiveComponent
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ball"))
         {
             m_particleSystem.Play();
-            m_audioSource.Play();
+            m_audioSource.PlayOneShot(gameDatabase.targetHitSound);
             Debug.Log("Hit");
             GameplayManager.Instance.Points += 1;
+            SaveManager.Instance.saveData.m_lifetimeHits += 1;
         }   
     }
 }

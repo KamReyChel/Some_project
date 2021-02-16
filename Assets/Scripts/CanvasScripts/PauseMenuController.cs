@@ -15,6 +15,12 @@ public class PauseMenuController : MonoBehaviour
     private Button resetButton;
 
     [SerializeField]
+    private Button saveButton;
+
+    [SerializeField]
+    private Button loadButton;
+
+    [SerializeField]
     private Button quitButton;
 
     [SerializeField]
@@ -26,6 +32,8 @@ public class PauseMenuController : MonoBehaviour
         resumeButton.onClick.AddListener(delegate { OnResume(); });
         quitButton.onClick.AddListener(delegate { OnQuit(); });
         resetButton.onClick.AddListener(delegate { OnReset(); });
+        saveButton.onClick.AddListener(delegate { SaveManager.Instance.SaveSettings(); });
+        loadButton.onClick.AddListener(delegate { SaveManager.Instance.LoadSettings(); });
 
         SetPanelVisible(false);
 

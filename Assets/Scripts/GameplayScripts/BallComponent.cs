@@ -39,22 +39,13 @@ public class BallComponent : InteractiveComponent
     private ParticleSystem m_particles;
 
     [SerializeField]
-    private AudioClip pullSound;
-
-    [SerializeField]
-    private AudioClip shootSound;
-
-    [SerializeField]
-    private AudioClip impactSound;
-
-    [SerializeField]
-    private AudioClip restartSound;
-
-    [SerializeField]
     private GameObject leftArmSlingshot;
 
     [SerializeField]
     private CameraController mainCamera;
+
+    [SerializeField]
+    private GameSettingsDatabase gameDatabase;
 
     public void ChangeScaleOfObject(Vector3 targetScaleVector, Transform gameObjectTransform, float speed)
     {
@@ -117,12 +108,12 @@ public class BallComponent : InteractiveComponent
 
     private void OnMouseDown()
     {
-        m_audioSource.PlayOneShot(pullSound);
+        m_audioSource.PlayOneShot(gameDatabase.pullSound);
     }
     private void OnMouseUp()
     {
         cRigidbody.simulated = true;
-        m_audioSource.PlayOneShot(shootSound);
+        m_audioSource.PlayOneShot(gameDatabase.shootSound);
         m_particles.Play();
     }
     
@@ -157,7 +148,7 @@ public class BallComponent : InteractiveComponent
         if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             m_hitTheGround = true;
-            m_audioSource.PlayOneShot(impactSound);
+            m_audioSource.PlayOneShot(gameDatabase.impactSound);
 
             m_animator.enabled = true;
             m_animator.Play(0);
@@ -183,7 +174,7 @@ public class BallComponent : InteractiveComponent
         SetLineRendererPoints();
 
         mainCamera.SetOriginalPosition();
-        m_audioSource.PlayOneShot(restartSound);
+        m_audioSource.PlayOneShot(gameDatabase.restartSound);
     }
 
     private void SetLineRendererPoints()

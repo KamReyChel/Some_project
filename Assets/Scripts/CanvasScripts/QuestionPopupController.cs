@@ -14,15 +14,23 @@ public class QuestionPopupController : MonoBehaviour
     [SerializeField]
     private Button noButton;
 
+    [SerializeField]
+    MainMenuController menuController;
+
+    [SerializeField]
+    PauseMenuController pauseMenuController;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        yesButton.onClick.AddListener(delegate { Application.Quit(); });
+        yesButton.onClick.AddListener(delegate { ReturnToMainMenu(); });
         noButton.onClick.AddListener(delegate { SetPanelVisible(false); });
 
         SetPanelVisible(false);
 
-        GameplayManager.OnGamePlaying += OnPlaying;
+        GameplayManager.OnGamePlaying += HidePanel;
     }
 
     public void SetPanelVisible(bool visible)
@@ -30,8 +38,18 @@ public class QuestionPopupController : MonoBehaviour
         panel.SetActive(visible);
     }
 
-    public void OnPlaying()
+    public void HidePanel()
     {
         SetPanelVisible(false);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        GameplayManager.Instance.Restart();
+        HidePanel();
+        GameplayManager.Instance.GameState = EGameState.Playing;
+        menuController.SetPanelVisible(true);
+        pauseMenuController.SetPanelVisible(false);
+
     }
 }

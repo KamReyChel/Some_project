@@ -47,9 +47,12 @@ public class GameplayManager : Singleton<GameplayManager>
     public static event GameStateCallback OnGamePlaying;
     public static event GameStateCallback GameReset;
 
+    public GameSettingsDatabase gameDatabase;
+
     private HUDController m_HUD;
     private int m_points = 0;
 
+    public int LifetimeHits = 0;
     public int Points
     {
         get { return m_points; }
@@ -72,6 +75,8 @@ public class GameplayManager : Singleton<GameplayManager>
         OnGamePaused += DeactiveHUB;
         OnGamePlaying += ActiveHUB;
         ////////////////////////////////////////////////////////
+
+        //Instantiate(gameDatabase.targetPrefab, new Vector3(1.0f, 1.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 90.0f));
 
         //StartCoroutine(FPS_Coroutine());
     }
@@ -117,7 +122,6 @@ public class GameplayManager : Singleton<GameplayManager>
     {
         foreach (var restartableObject in m_restartableObjects)
             restartableObject.DoRestart();
-
         Points = 0;
 
         if (GameReset != null)
