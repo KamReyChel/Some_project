@@ -52,7 +52,7 @@ public class GameplayManager : Singleton<GameplayManager>
     private HUDController m_HUD;
     private int m_points = 0;
 
-    public int LifetimeHits = 0;
+    //public int LifetimeHits = 0;
     public int Points
     {
         get { return m_points; }

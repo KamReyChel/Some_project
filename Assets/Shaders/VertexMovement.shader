@@ -56,14 +56,14 @@
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.vertex.y += sin((float)_Time * _SpeedOfVerticalMovement * 10) / 2;
+                o.vertex.y += sin(_Time.y * _SpeedOfVerticalMovement * 10) / 2;
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }
             
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = lerp(tex2D(_MainTex, i.uv), tex2D(_SecTex, i.uv), abs(sin((float)_Time * _SpeedOfBlend)));
+                fixed4 col = lerp(tex2D(_MainTex, i.uv), tex2D(_SecTex, i.uv), abs(sin(_Time.y * _SpeedOfBlend)));
                 col *= _Color;
                 return col;
             }

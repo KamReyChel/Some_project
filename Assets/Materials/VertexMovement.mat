@@ -29,8 +29,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Blend: 0
-    - _SpeedOfBlend: 40.34
-    - _SpeedOfVerticalMovement: 0.3
+    - _SpeedOfBlend: 1
+    - _SpeedOfVerticalMovement: 0.5
     - _VerticalOffset: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

@@ -27,7 +27,7 @@ public class SaveManager : Singleton<SaveManager>
         saveData.m_masterVolume = AudioListener.volume;
         LoadSettings();
 
-        Debug.Log(Application.persistentDataPath);
+        //Debug.Log(Application.persistentDataPath);
     }
 
     private void Update()
@@ -89,8 +89,8 @@ public class SaveManager : Singleton<SaveManager>
 
         //m_overallTime = PlayerPrefs.GetFloat("OverallTime", 0.0f);
         //GameplayManager.Instance.LifetimeHits = PlayerPrefs.GetInt("LifetimeHits", 0);
-        Debug.Log("Loaded overall time value: " + saveData.m_overallTime);
-        Debug.Log("Loaded lifetime hits value: " + saveData.m_lifetimeHits);
+        //Debug.Log("Loaded overall time value: " + saveData.m_overallTime);
+        //Debug.Log("Loaded lifetime hits value: " + saveData.m_lifetimeHits);
     }
 
     [Serializable]

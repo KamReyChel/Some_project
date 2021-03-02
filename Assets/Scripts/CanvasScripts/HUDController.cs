@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class HUDController : MonoBehaviour
 {
-    [SerializeField]
+
+
+    [SerializeField] 
     private Button pauseButton;
 
     [SerializeField]
@@ -13,6 +15,14 @@ public class HUDController : MonoBehaviour
 
     [SerializeField]
     private TMPro.TextMeshProUGUI pointsText;
+
+    [SerializeField] 
+    private Slider progressBar;
+
+    [SerializeField] 
+    private float timeToDone;
+
+    private const float TOLERANCE = 0.0001f;
 
     private void Start()
     {
@@ -25,7 +35,19 @@ public class HUDController : MonoBehaviour
         {
             GameplayManager.Instance.Restart();
         });
+
+        StartCoroutine(FillingTheSlider());
     }
+
+    /*
+    private void Update()
+    {
+        if (!(Math.Abs(progressBar.value - 1.0f) < TOLERANCE))
+        {
+            progressBar.value += Time.deltaTime / timeToDone;
+        }
+    }
+    */
 
     public void UpdatePoints(int points)
     {
@@ -46,5 +68,20 @@ public class HUDController : MonoBehaviour
     {
         resetButton.gameObject.SetActive(activation);
     }
+
+    
+    private IEnumerator FillingTheSlider()
+    {
+        while (timeToDone != 0.0f)
+        {
+            if (!(Math.Abs(progressBar.value - 1.0f) < TOLERANCE))
+            {
+                progressBar.value = Time.time / timeToDone;
+            }
+            
+            yield return null;
+        }
+    }
+    
 
 }

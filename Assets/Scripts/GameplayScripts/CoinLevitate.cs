@@ -59,9 +59,9 @@ public class CoinLevitate : MonoBehaviour
 
             if (increment > 2.0f)
             {
-                Debug.Log("Cycle done, waiting one second");
+                //Debug.Log("Cycle done, waiting one second");
                 yield return new WaitForSeconds(1.0f);
-                Debug.Log("Done!");
+                //Debug.Log("Done!");
                 increment = 0.0f;
             }
             else

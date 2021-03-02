@@ -70,6 +70,7 @@
                 triStream.Append(o);
 
                 triStream.RestartStrip();
+                
             }
             
             fixed4 frag (g2f i) : SV_Target

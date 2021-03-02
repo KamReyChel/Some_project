@@ -35,7 +35,10 @@
         </e>
         <e p="Shaders" t="Include">
           <e p="Geometry.shader" t="Include" />
+          <e p="ImageUI.shader" t="Include" />
+          <e p="ProgressBar.shader" t="Include" />
           <e p="VertexMovement.shader" t="Include" />
+          <e p="Water.shader" t="Include" />
         </e>
         <e p="TextMesh Pro" t="Include">
           <e p="Fonts" t="Include">

@@ -47,6 +47,8 @@ public class BallComponent : InteractiveComponent
     [SerializeField]
     private GameSettingsDatabase gameDatabase;
 
+    [SerializeField] private Camera mainSceneCamera;
+
     public void ChangeScaleOfObject(Vector3 targetScaleVector, Transform gameObjectTransform, float speed)
     {
 
@@ -55,7 +57,7 @@ public class BallComponent : InteractiveComponent
 
         if (Mathf.Abs(deltaScaleVector.x) >= 0.01)
         {
-            gameObjectTransform.localScale += deltaScaleVector.normalized * Time.deltaTime * speed;
+            gameObjectTransform.localScale += deltaScaleVector.normalized * (Time.deltaTime * speed);
         }
         else
         {
@@ -124,7 +126,8 @@ public class BallComponent : InteractiveComponent
             cRigidbody.simulated = false;
             m_hitTheGround = false;
 
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 worldPos = mainSceneCamera.ScreenToWorldPoint(Input.mousePosition);
             Vector2 newBallPos = new Vector3(worldPos.x, worldPos.y);
 
             float CurJointDistance = Vector3.Distance(newBallPos, m_connectedBody.transform.position);
