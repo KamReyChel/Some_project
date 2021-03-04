@@ -26,13 +26,13 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/ShaderScripts/ShaderModification.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/GameplayManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/BallComponent.cs" />
-      <option value="$PROJECT_DIR$/Assets/Shaders/VertexMovement.shader" />
-      <option value="$PROJECT_DIR$/Assets/Shaders/Water.shader" />
       <option value="$PROJECT_DIR$/Assets/Shaders/Geometry.shader" />
       <option value="$PROJECT_DIR$/Assets/Shaders/ImageUI.shader" />
       <option value="$PROJECT_DIR$/Assets/Shaders/ProgressBar.shader" />
       <option value="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/CoinLevitate.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/SaveManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Shaders/VertexMovement.shader" />
+      <option value="$PROJECT_DIR$/Assets/Shaders/Water.shader" />
       <option value="$PROJECT_DIR$/Assets/Scripts/CanvasScripts/HUDController.cs" />
     </changedPaths>
   </component>
@@ -101,6 +101,7 @@
       <workItem from="1614596423801" duration="9565000" />
       <workItem from="1614609349134" duration="6439000" />
       <workItem from="1614623115341" duration="3220000" />
+      <workItem from="1614848183598" duration="2322000" />
     </task>
     <servers />
   </component>

@@ -59,9 +59,10 @@
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
                 
-                o.vertex.y += sin(o.vertex.x * UNITY_PI * (1/_Frequency) + _Time.y) * _Amplitude;
+                v.vertex.z += sin(v.vertex.x * UNITY_PI * (1/_Frequency) - _Time.y) * _Amplitude;
+
+                o.vertex = UnityObjectToClipPos(v.vertex);
 
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.uv2 = TRANSFORM_TEX(v.uv2, _DisplacementTexture);

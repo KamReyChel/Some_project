@@ -56,7 +56,7 @@
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.vertex.y += sin(_Time.y * _SpeedOfVerticalMovement * 10) / 2;
+                o.vertex.y += sin(_Time.y * _SpeedOfVerticalMovement);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }

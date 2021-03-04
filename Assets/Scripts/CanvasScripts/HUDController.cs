@@ -35,17 +35,15 @@ public class HUDController : MonoBehaviour
         {
             GameplayManager.Instance.Restart();
         });
-
+        
         StartCoroutine(FillingTheSlider());
     }
 
     /*
     private void Update()
     {
-        if (!(Math.Abs(progressBar.value - 1.0f) < TOLERANCE))
-        {
-            progressBar.value += Time.deltaTime / timeToDone;
-        }
+        if(Input.GetKeyUp(KeyCode.Q))
+            StartCoroutine(FillingTheSlider());
     }
     */
 
@@ -72,16 +70,16 @@ public class HUDController : MonoBehaviour
     
     private IEnumerator FillingTheSlider()
     {
+        float coroutineStart = Time.time;
+        
         while (timeToDone != 0.0f)
         {
             if (!(Math.Abs(progressBar.value - 1.0f) < TOLERANCE))
             {
-                progressBar.value = Time.time / timeToDone;
+                progressBar.value = (Time.time - coroutineStart) / timeToDone;
             }
             
             yield return null;
         }
     }
-    
-
 }
