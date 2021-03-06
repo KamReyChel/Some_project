@@ -2,16 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 public class HUDController : MonoBehaviour
 {
-
-
     [SerializeField] 
     private Button pauseButton;
 
     [SerializeField]
     private Button resetButton;
+
+    [SerializeField] 
+    private Button loadButton;
 
     [SerializeField]
     private TMPro.TextMeshProUGUI pointsText;
@@ -24,6 +26,10 @@ public class HUDController : MonoBehaviour
 
     private const float TOLERANCE = 0.0001f;
 
+    public delegate void SetSomeAssets();
+
+    public static event SetSomeAssets testAssetSetting;
+
     private void Start()
     {
         pauseButton.onClick.AddListener(delegate
@@ -34,6 +40,11 @@ public class HUDController : MonoBehaviour
         resetButton.onClick.AddListener(delegate
         {
             GameplayManager.Instance.Restart();
+        });
+
+        loadButton.onClick.AddListener(delegate
+        {
+            testAssetSetting?.Invoke();
         });
         
         StartCoroutine(FillingTheSlider());
@@ -46,12 +57,13 @@ public class HUDController : MonoBehaviour
             StartCoroutine(FillingTheSlider());
     }
     */
-
+    
+    
     public void UpdatePoints(int points)
     {
         pointsText.text = "Points: " + points;
     }
-
+    
     public void UpdateFPSCount(float fps)
     {
         Debug.Log($"FPS: {fps}");

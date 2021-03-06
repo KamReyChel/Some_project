@@ -24,7 +24,6 @@
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/Assets/Scripts/ShaderScripts/ShaderModification.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/GameplayManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/BallComponent.cs" />
       <option value="$PROJECT_DIR$/Assets/Shaders/Geometry.shader" />
       <option value="$PROJECT_DIR$/Assets/Shaders/ImageUI.shader" />
@@ -33,6 +32,12 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/SaveManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Shaders/VertexMovement.shader" />
       <option value="$PROJECT_DIR$/Assets/Shaders/Water.shader" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/AssetScripts/CreateAssetBundles.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/CreateAssetBundles.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/GameplayManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Editor/CreateAssetBundles.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/AssetBundlesManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/SpriteAssetLoader.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/CanvasScripts/HUDController.cs" />
     </changedPaths>
   </component>
@@ -102,6 +107,12 @@
       <workItem from="1614609349134" duration="6439000" />
       <workItem from="1614623115341" duration="3220000" />
       <workItem from="1614848183598" duration="2322000" />
+      <workItem from="1614935013077" duration="11000" />
+      <workItem from="1614938920947" duration="1650000" />
+      <workItem from="1614940641808" duration="1012000" />
+      <workItem from="1615031931669" duration="2229000" />
+      <workItem from="1615035327379" duration="228000" />
+      <workItem from="1615050143913" duration="4479000" />
     </task>
     <servers />
   </component>

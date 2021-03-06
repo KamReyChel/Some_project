@@ -4,9 +4,11 @@
     <e p="C:\Users\kamil\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
     <e p="C:\Users\kamil\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_Some_project_repo.-838738464.00" t="ExcludeRecursive" />
     <e p="I:\Folder na repozytoria\Some_project_repo" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
+          <e p="AssetBundlesManager.cs" t="Include" />
           <e p="CanvasScripts" t="Include">
             <e p="HUDController.cs" t="Include" />
             <e p="MainMenuController.cs" t="Include" />
@@ -14,6 +16,9 @@
             <e p="PauseMenuController.cs" t="Include" />
             <e p="QuestionPopupController.cs" t="Include" />
             <e p="VolumeController.cs" t="Include" />
+          </e>
+          <e p="Editor" t="Include">
+            <e p="CreateAssetBundles.cs" t="Include" />
           </e>
           <e p="GameplayScripts" t="Include">
             <e p="BallComponent.cs" t="Include" />
@@ -32,6 +37,7 @@
           <e p="ShaderScripts" t="Include">
             <e p="ShaderModification.cs" t="Include" />
           </e>
+          <e p="SpriteAssetLoader.cs" t="Include" />
         </e>
         <e p="Shaders" t="Include">
           <e p="Geometry.shader" t="Include" />
