@@ -16,6 +16,9 @@ public class HUDController : MonoBehaviour
     private Button loadButton;
 
     [SerializeField]
+    private Button loadSceneButton;
+
+    [SerializeField]
     private TMPro.TextMeshProUGUI pointsText;
 
     [SerializeField] 
@@ -45,6 +48,10 @@ public class HUDController : MonoBehaviour
         loadButton.onClick.AddListener(delegate
         {
             testAssetSetting?.Invoke();
+        });
+        loadSceneButton.onClick.AddListener(delegate
+        {
+            AssetBundlesManager.Instance.LoadAbScene(0);
         });
         
         StartCoroutine(FillingTheSlider());

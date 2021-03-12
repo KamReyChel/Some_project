@@ -36,9 +36,9 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/CreateAssetBundles.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/GameplayManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Editor/CreateAssetBundles.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/AssetBundlesManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/SpriteAssetLoader.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/CanvasScripts/HUDController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/AssetBundlesManager.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1obsnqQNG51Na2x0VJIGQRPO5VL" />
@@ -113,6 +113,8 @@
       <workItem from="1615031931669" duration="2229000" />
       <workItem from="1615035327379" duration="228000" />
       <workItem from="1615050143913" duration="4479000" />
+      <workItem from="1615542401910" duration="1640000" />
+      <workItem from="1615555040699" duration="1000" />
     </task>
     <servers />
   </component>
