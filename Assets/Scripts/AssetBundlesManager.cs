@@ -13,7 +13,7 @@ public class AssetBundlesManager : Singleton<AssetBundlesManager>
     [SerializeField] private uint abVersion;
     [SerializeField] private string abVersionURL;
     [SerializeField] private string abLocalPath;
-    [SerializeField] private string abLocalPathScenes;
+    [SerializeField] private string abLocalNameScenes;
 
 
     private AssetBundle ab;
@@ -35,7 +35,7 @@ public class AssetBundlesManager : Singleton<AssetBundlesManager>
         //yield return StartCoroutine(LoadAssets(assetBundleName, result => ab = result));
         //yield return StartCoroutine(LoadAssetsFromURL());
         yield return StartCoroutine(LoadAssetsFromMemoryAsync(abLocalPath));
-        yield return StartCoroutine(LoadScenesFromURL(abLocalPathScenes));
+        yield return StartCoroutine(LoadScenesFromURL(abLocalNameScenes));
     }
 
     public Sprite GetSprite(string assetName)
@@ -124,8 +124,10 @@ public class AssetBundlesManager : Singleton<AssetBundlesManager>
         }
     }
 
-    private IEnumerator LoadScenesFromURL(string path)
+    private IEnumerator LoadScenesFromURL(string name)
     {
+        string path = Path.Combine(Application.streamingAssetsPath, name);
+
         UnityWebRequest uwr = UnityWebRequestAssetBundle.GetAssetBundle(path);
 
         yield return uwr.SendWebRequest();
