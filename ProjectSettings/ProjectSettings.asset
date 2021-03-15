@@ -631,10 +631,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: f037bc35-21a0-4f42-90f9-e1ca4dbb7396
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Some project
+  organizationId: rychu03
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

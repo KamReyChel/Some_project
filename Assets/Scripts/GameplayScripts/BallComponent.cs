@@ -16,6 +16,8 @@ public class BallComponent : InteractiveComponent
     public float maxSpringDistance = 2.5f;
 
     public bool restartStatus = false;
+    public static bool mistedShoot = false;
+
 
     private float physicsSpeed;
 
@@ -37,6 +39,7 @@ public class BallComponent : InteractiveComponent
     private Animator m_animator;
     private AudioSource m_audioSource;
     private ParticleSystem m_particles;
+    private SpriteRenderer m_spriteRenderer;
 
     [SerializeField]
     private GameObject leftArmSlingshot;
@@ -49,22 +52,9 @@ public class BallComponent : InteractiveComponent
 
     [SerializeField] private Camera mainSceneCamera;
 
-    public void ChangeScaleOfObject(Vector3 targetScaleVector, Transform gameObjectTransform, float speed)
-    {
-
-        Vector3 deltaScaleVector = targetScaleVector - gameObjectTransform.localScale;
+    [SerializeField] private Sprite[] ballSprites;
 
 
-        if (Mathf.Abs(deltaScaleVector.x) >= 0.01)
-        {
-            gameObjectTransform.localScale += deltaScaleVector.normalized * (Time.deltaTime * speed);
-        }
-        else
-        {
-            gameObjectTransform.localScale = targetScaleVector;
-        }
-
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -77,6 +67,8 @@ public class BallComponent : InteractiveComponent
         m_audioSource = GetComponent<AudioSource>();
         m_animator = GetComponentInChildren<Animator>();
         m_particles = GetComponentInChildren<ParticleSystem>();
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
+
 
         startPosition = transform.position;
         startRotation = transform.rotation;
@@ -84,6 +76,9 @@ public class BallComponent : InteractiveComponent
         GameplayManager.OnGamePaused += DoPause;
         GameplayManager.OnGamePlaying += DoPlay;
         GameplayManager.GameReset += DoAddicionalReset;
+        GameplayManager.GameReset += ResetMistedShoot;
+
+        m_spriteRenderer.sprite = ballSprites[AnalyticsManager.Instance.GetIntParameter("SpriteIndex")];
 
         StartCoroutine(LoseConnection());
     }
@@ -106,7 +101,6 @@ public class BallComponent : InteractiveComponent
         */
 
     }
-
 
     private void OnMouseDown()
     {
@@ -155,8 +149,30 @@ public class BallComponent : InteractiveComponent
 
             m_animator.enabled = true;
             m_animator.Play(0);
+
+            IsMissed();
+        }
+        
+        if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            IsMissed();
         }
     }
+
+    private void IsMissed()
+    {
+        if (GameplayManager.Instance.Points == 0 && !mistedShoot)
+        {
+            AnalyticsManager.Instance.SendEvent("MissedShot");
+            mistedShoot = true;
+        }
+    }
+
+    private void ResetMistedShoot()
+    {
+        mistedShoot = false;
+    }
+
 
     public bool IsSimulated()
     {
@@ -191,6 +207,22 @@ public class BallComponent : InteractiveComponent
         });
     }
 
+    public void ChangeScaleOfObject(Vector3 targetScaleVector, Transform gameObjectTransform, float speed)
+    {
+
+        Vector3 deltaScaleVector = targetScaleVector - gameObjectTransform.localScale;
+
+
+        if (Mathf.Abs(deltaScaleVector.x) >= 0.01)
+        {
+            gameObjectTransform.localScale += deltaScaleVector.normalized * (Time.deltaTime * speed);
+        }
+        else
+        {
+            gameObjectTransform.localScale = targetScaleVector;
+        }
+
+    }
 
     IEnumerator LoseConnection()
     {

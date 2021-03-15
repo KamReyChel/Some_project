@@ -13,6 +13,7 @@ public class TargetComponent : InteractiveComponent
     private ParticleSystem m_particleSystem;
     private AudioSource m_audioSource;
     private Rigidbody2D m_rigidbody;
+    private bool gotHit;
 
     protected override Vector3 startPosition { get => m_startPosition; set => m_startPosition = value; }
     protected override Quaternion startRotation { get => m_startRotation; set => m_startRotation = value; }
@@ -42,6 +43,12 @@ public class TargetComponent : InteractiveComponent
             Debug.Log("Hit");
             GameplayManager.Instance.Points += 1;
             SaveManager.Instance.saveData.m_lifetimeHits += 1;
-        }   
+
+            if (!gotHit && !BallComponent.mistedShoot)
+            {
+                AnalyticsManager.Instance.SendEvent("HitTarget");
+                gotHit = true;
+            }
+        }
     }
 }

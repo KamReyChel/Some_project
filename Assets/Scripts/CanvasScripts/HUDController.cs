@@ -6,13 +6,13 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 public class HUDController : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private Button pauseButton;
 
     [SerializeField]
     private Button resetButton;
 
-    [SerializeField] 
+    [SerializeField]
     private Button loadButton;
 
     [SerializeField]
@@ -21,11 +21,13 @@ public class HUDController : MonoBehaviour
     [SerializeField]
     private TMPro.TextMeshProUGUI pointsText;
 
-    [SerializeField] 
+    [SerializeField]
     private Slider progressBar;
 
-    [SerializeField] 
+    [SerializeField]
     private float timeToDone;
+
+    [SerializeField] private Sprite[] loadButtonSprites;
 
     private const float TOLERANCE = 0.0001f;
 
@@ -55,6 +57,8 @@ public class HUDController : MonoBehaviour
         });
         
         StartCoroutine(FillingTheSlider());
+
+        loadSceneButton.image.sprite = loadButtonSprites[AnalyticsManager.Instance.GetIntParameter("SpriteColorIndex")];
     }
 
     /*
