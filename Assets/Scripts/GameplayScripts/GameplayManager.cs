@@ -99,6 +99,7 @@ public class GameplayManager : Singleton<GameplayManager>
             Restart();
         }
 
+
     }
 
     private void GetAllRestartableObjects()
