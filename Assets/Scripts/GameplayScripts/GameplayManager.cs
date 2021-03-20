@@ -99,7 +99,10 @@ public class GameplayManager : Singleton<GameplayManager>
             Restart();
         }
 
-
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            PlayerPrefs.SetInt("AdsRemoved", 0);
+        }
     }
 
     private void GetAllRestartableObjects()

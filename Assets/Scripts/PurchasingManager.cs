@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
@@ -17,6 +18,7 @@ public class PurchasingManager : Singleton<PurchasingManager>, IStoreListener
     void Start()
     {
         InitializePurchasing();
+        
     }
 
     private void InitializePurchasing()
@@ -29,6 +31,12 @@ public class PurchasingManager : Singleton<PurchasingManager>, IStoreListener
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
         builder.AddProduct(removeAdsId, ProductType.NonConsumable);
+
+        ///
+        /// Inna metoda na wywołanie fejk'a? Inicjalizacja "słuchacza" oraz konfiguracji.
+        /// https://docs.unity3d.com/2018.1/Documentation/ScriptReference/Purchasing.UnityPurchasing.Initialize.html
+        ///
+        UnityPurchasing.Initialize(this, builder);
     }
 
     private bool IsInitialized()
@@ -40,6 +48,7 @@ public class PurchasingManager : Singleton<PurchasingManager>, IStoreListener
     {
         storeController = controller;
         extensionProvider = extensions;
+        Debug.Log("OnInitialized: PASS");
     }
 
     public void OnInitializeFailed(InitializationFailureReason error)
@@ -54,6 +63,7 @@ public class PurchasingManager : Singleton<PurchasingManager>, IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
     {
+
         if(string.Equals(purchaseEvent.purchasedProduct.definition.id, removeAdsId, System.StringComparison.Ordinal))
         {
             Debug.LogFormat("ProcessPurchase: PASS. Product : {0}", purchaseEvent.purchasedProduct.definition.id);
@@ -70,12 +80,6 @@ public class PurchasingManager : Singleton<PurchasingManager>, IStoreListener
 
     private void PurchaseProduct(string id)
     {
-        #if UNITY_EDITOR
-            Debug.LogFormat("Purchasing product asynchronously: {0}", id);
-            Debug.LogFormat("ProcessPurchase: PASS. Product : {0}", id);
-            PlayerPrefs.SetInt("AdsRemoved", 1);
-            mainMenuController.SetButtonRemoveAdsVisible(false);
-        #else
         if (IsInitialized())
         {
             Product product = storeController.products.WithID(id);
@@ -95,7 +99,7 @@ public class PurchasingManager : Singleton<PurchasingManager>, IStoreListener
         {
             Debug.Log("PurchaseProduct FAIL. Not initialized.");
         }
-        #endif
+
     }
 
     public void BuyRemoveAds()
