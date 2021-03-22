@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 7845054462400858373}
   m_Layer: 10
   m_Name: PlankSprite
-  m_TagString: Untagged
+  m_TagString: Target_tag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

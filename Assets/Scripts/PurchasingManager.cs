@@ -36,7 +36,9 @@ public class PurchasingManager : Singleton<PurchasingManager>, IStoreListener
         /// Inna metoda na wywołanie fejk'a? Inicjalizacja "słuchacza" oraz konfiguracji.
         /// https://docs.unity3d.com/2018.1/Documentation/ScriptReference/Purchasing.UnityPurchasing.Initialize.html
         ///
+#if UNITY_EDITOR
         UnityPurchasing.Initialize(this, builder);
+#endif
     }
 
     private bool IsInitialized()
