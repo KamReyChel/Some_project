@@ -128,8 +128,6 @@ public class GameplayManager : Singleton<GameplayManager>
             restartableObject.DoRestart();
         Points = 0;
 
-        
-
         if (GameReset != null)
             GameReset();
     }
