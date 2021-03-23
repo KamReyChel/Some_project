@@ -13,6 +13,12 @@ public abstract class InteractiveComponent : MonoBehaviour, IRestartableObject
         transform.position = startPosition;
         transform.rotation = startRotation;
 
+        ///Prosty bug fix
+        /*
+        if (cRigidbody == null)
+            return;
+        */
+
         cRigidbody.velocity = Vector3.zero;
         cRigidbody.angularVelocity = 0.0f;
         cRigidbody.simulated = true;
