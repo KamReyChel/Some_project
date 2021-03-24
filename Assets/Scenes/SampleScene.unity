@@ -1833,7 +1833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &448499647
 Transform:
   m_ObjectHideFlags: 0
@@ -4100,6 +4100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0ff0754aef09747baddd9a7098e5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  followTarget: {fileID: 1398968275}
 --- !u!1 &1025131623
 GameObject:
   m_ObjectHideFlags: 0
@@ -10589,6 +10590,13 @@ MonoBehaviour:
   SlingStart: 0.5
   maxSpringDistance: 2.5
   restartStatus: 0
+  m_connectedJoint: {fileID: 1398968278}
+  m_linerenderer: {fileID: 1398968279}
+  m_trailRenderer: {fileID: 1398968280}
+  m_animator: {fileID: 1128660128}
+  m_audioSource: {fileID: 1398968281}
+  m_particles: {fileID: 1132723058}
+  m_spriteRenderer: {fileID: 1398968273}
   leftArmSlingshot: {fileID: 1363713068}
   mainCamera: {fileID: 1020137530}
   gameDatabase: {fileID: 11400000, guid: 0aca9e6354743994da31a0de6bd3bd53, type: 2}
@@ -11788,7 +11796,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Some Points
+  m_text: 'Points: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 22da9e5997d495546bebc2df052715a0, type: 2}
   m_sharedMaterial: {fileID: -5708665588148356982, guid: 22da9e5997d495546bebc2df052715a0,
@@ -19552,6 +19560,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 69513390261001391, guid: f5b6ee4baf1cf2548ac24dc2316602c8,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5b6ee4baf1cf2548ac24dc2316602c8, type: 3}

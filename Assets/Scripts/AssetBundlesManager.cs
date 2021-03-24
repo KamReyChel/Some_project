@@ -141,6 +141,7 @@ public class AssetBundlesManager : Singleton<AssetBundlesManager>
             abScenes = DownloadHandlerAssetBundle.GetContent(uwr);
         }
 
+        /*
         if (abScenes == null)
         {
             Debug.Log("abScene is null");
@@ -149,6 +150,7 @@ public class AssetBundlesManager : Singleton<AssetBundlesManager>
         {
             Debug.Log("abScene is not null");
         }
+        */
     }
     
 }

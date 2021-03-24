@@ -4965,3 +4965,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameDatabase: {fileID: 11400000, guid: 0aca9e6354743994da31a0de6bd3bd53, type: 2}
+  m_particleSystem: {fileID: 69513390261001361}
+  m_audioSource: {fileID: 69513390261001362}
+  m_spriteRenderer: {fileID: 69513390261001391}
