@@ -58,8 +58,12 @@ public class GameplayManager : Singleton<GameplayManager>
         get { return m_points; }
         set
         {
-            m_points = value;
-            m_HUD.UpdatePoints(m_points);
+            if(m_points != value)
+            {
+                m_points = value;
+                m_HUD.UpdatePoints(m_points);
+            }
+
         }
     }
 
@@ -99,10 +103,18 @@ public class GameplayManager : Singleton<GameplayManager>
             Restart();
         }
 
+        /*
         if (Input.GetKeyUp(KeyCode.E))
         {
             PlayerPrefs.SetInt("AdsRemoved", 0);
         }
+        */
+        ///Straszne ＼（〇_ｏ）／
+        /*
+        int sum = 0;
+        for (int i = 0; i < 100000000; ++i)
+            sum += i;
+        */
     }
 
     private void GetAllRestartableObjects()

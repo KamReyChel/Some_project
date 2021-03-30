@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
-    private BallComponent followTarget;
+    [SerializeField] private BallComponent followTarget;
     private Vector3 originalPostion;
     private Vector3 targetPosition;
     // Start is called before the first frame update
     void Start()
     {
-        followTarget = FindObjectOfType<BallComponent>();
+        //followTarget = FindObjectOfType<BallComponent>();
         originalPostion = transform.position;
     }
 

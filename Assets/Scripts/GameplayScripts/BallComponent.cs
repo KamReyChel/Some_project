@@ -33,13 +33,13 @@ public class BallComponent : InteractiveComponent
     protected override Rigidbody2D cRigidbody { get => m_rigidbody; set => m_rigidbody = value; }
 
     private Rigidbody2D m_connectedBody;
-    private SpringJoint2D m_connectedJoint;
-    private LineRenderer m_linerenderer;
-    private TrailRenderer m_trailRenderer;
-    private Animator m_animator;
-    private AudioSource m_audioSource;
-    private ParticleSystem m_particles;
-    private SpriteRenderer m_spriteRenderer;
+    [SerializeField] private SpringJoint2D m_connectedJoint;
+    [SerializeField] private LineRenderer m_linerenderer;
+    [SerializeField] private TrailRenderer m_trailRenderer;
+    [SerializeField] private Animator m_animator;
+    [SerializeField] private AudioSource m_audioSource;
+    [SerializeField] private ParticleSystem m_particles;
+    [SerializeField] private SpriteRenderer m_spriteRenderer;
 
     [SerializeField]
     private GameObject leftArmSlingshot;
@@ -59,17 +59,18 @@ public class BallComponent : InteractiveComponent
     // Start is called before the first frame update
     void Start()
     {
-        cRigidbody = GetComponent<Rigidbody2D>();
+        /*
         m_connectedJoint = GetComponent<SpringJoint2D>();
-        m_connectedBody = m_connectedJoint.connectedBody;
         m_linerenderer = GetComponent<LineRenderer>();
         m_trailRenderer = GetComponent<TrailRenderer>();
         m_audioSource = GetComponent<AudioSource>();
         m_animator = GetComponentInChildren<Animator>();
         m_particles = GetComponentInChildren<ParticleSystem>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
+        */
 
-
+        cRigidbody = GetComponent<Rigidbody2D>();
+        m_connectedBody = m_connectedJoint.connectedBody;
         startPosition = transform.position;
         startRotation = transform.rotation;
 

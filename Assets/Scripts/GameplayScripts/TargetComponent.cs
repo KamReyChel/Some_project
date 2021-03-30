@@ -10,8 +10,8 @@ public class TargetComponent : InteractiveComponent
     private Vector3 m_startPosition;
     private Quaternion m_startRotation;
 
-    private ParticleSystem m_particleSystem;
-    private AudioSource m_audioSource;
+    [SerializeField] private ParticleSystem m_particleSystem;
+    [SerializeField] private AudioSource m_audioSource;
     private Rigidbody2D m_rigidbody;
     private bool gotHit;
 
@@ -21,8 +21,8 @@ public class TargetComponent : InteractiveComponent
 
     private void Start()
     {
-        m_particleSystem = GetComponent<ParticleSystem>();
-        m_audioSource = GetComponent<AudioSource>();
+        //m_particleSystem = GetComponent<ParticleSystem>();
+        //m_audioSource = GetComponent<AudioSource>();
         cRigidbody = GetComponent<Rigidbody2D>();
 
         startPosition = transform.position;
@@ -40,7 +40,7 @@ public class TargetComponent : InteractiveComponent
         {
             m_particleSystem.Play();
             m_audioSource.PlayOneShot(gameDatabase.targetHitSound);
-            Debug.Log("Hit");
+            //Debug.Log("Hit");
             GameplayManager.Instance.Points += 1;
             SaveManager.Instance.saveData.m_lifetimeHits += 1;
 
@@ -51,4 +51,5 @@ public class TargetComponent : InteractiveComponent
             }
         }
     }
+
 }
